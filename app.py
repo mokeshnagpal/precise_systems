@@ -41,7 +41,6 @@ try:
 except Exception as e:
     app.logger.error(f"Firebase Initialization Error: {e}")
 
-db = firestore.client()  # Firestore client
 
 node = 9
 signal = 4
@@ -216,7 +215,7 @@ def security():
                 error = 'New password cannot be the same as the old password.'  #comment
             elif password and checkpw(old_password.encode(), password['password']):  #comment
                 hashed_password = hashpw(new_password.encode(), gensalt())
-                db.collection('users').document('password').update({
+                db.collection('users').document('password').update({   #use set function
                     'password': hashed_password
                 })
                 return render_template('security.html', error="Password updated successfully.")
@@ -256,5 +255,6 @@ def email_response():
 
 if __name__ == '__main__':
     app.run(debug=True)
+
 
 
