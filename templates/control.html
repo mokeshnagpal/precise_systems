@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Meta tags for responsive design and character encoding -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PRECISE - Home page</title>
+
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='apple-touch-icon.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='favicon-16x16.png') }}">
+    <link rel="manifest" href="{{ url_for('static', filename='site.webmanifest') }}">
+
+    <!-- Bootstrap CSS for styling -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+        integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <!-- Google Fonts for typography -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&family=Source+Sans+Pro:wght@300;400;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Internal CSS for custom styling -->
+    <style>
+        body {
+            font-family: 'Source Sans Pro', sans-serif;
+            background-size: cover;
+            background-color: #3b3b3b;
+            color: #3c6d79;
+            font-size: 16px;
+            padding-top: 20px;
+        }
+
+        /* Header styles */
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            font-family: 'Open Sans', sans-serif;
+            color: #3c6d79;
+            font-weight: 600;
+        }
+
+        /* Navbar styles */
+        .navbar-expand-lg {
+            background-color: #3b3b3b;
+        }
+
+        .navbar-brand {
+            color: #3c6d79;
+            font-weight: 700;
+            font-size: 24px;
+        }
+
+        .navbar-toggler {
+            color: #3b3b3b;
+            border-color: #f9ae65;
+        }
+
+        .navbar-toggler:focus {
+            border-width: 3px;
+        }
+
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='%233c6d79' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+        }
+
+        /* Link styles */
+        .nav-link {
+            color: #3c6d79;
+            font-weight: 500;
+            font-size: 18px;
+        }
+
+        .nav-link.active {
+            color: #3c6d79 !important;
+            font-weight: bold;
+        }
+
+        .nav-link:hover {
+            color: #f9ae65;
+        }
+
+        /* Button styles */
+        .btn-primary {
+            background-color: #f9ae65;
+            color: #3c6d79;
+            border: none;
+            font-size: 18px;
+        }
+
+        .btn-primary:hover {
+            background-color: #3b3b3b;
+            color: #3c6d79;
+        }
+
+        /*Dialog box*/
+
+        #thumbnail {
+            cursor: pointer;
+        }
+
+        .dialog {
+            /* Hidden by default */
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            /* Further reduced border-radius */
+        }
+
+        .dialog-content {
+            /* Set the width to 100% of the viewport width */
+            height: auto;
+            position: relative;
+            margin: auto;
+            padding: 10px;
+            /* Further reduced padding */
+            /* Adjusted width to match child elements */
+            box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+            /* Lighter shadow */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .close-button {
+            position: absolute;
+            top: 10px;
+            right: 25px;
+            color: #aaa;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close-button:hover,
+        .close-button:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .enlarged_image {
+            width: 80vw !important;
+            height: auto;
+            max-height: 100vh !important;
+            display: block;
+            margin: auto;
+        }
+
+
+        /* Table styles */
+        .emergency.active {
+            background-color: #d1ffbd;
+            border-color: #d1ffbd;
+        }
+
+        .emergency.inactive {
+            background-color: #ff6865;
+            border-color: #ff6865;
+        }
+
+        .input-width {
+            width: 15%;
+        }
+
+        .table-responsive {
+            display: block;
+            width: 100%;
+            overflow-x: auto;
+            overflow-y: auto;
+        }
+
+        .table {
+            width: auto;
+            min-width: 100%;
+            white-space: nowrap;
+        }
+
+        table {
+            margin: 0 auto;
+            text-align: center;
+            border-collapse: collapse;
+            color: #3c6d79;
+            table-layout: auto;
+        }
+
+        th,
+        td {
+            padding: 20px;
+            border: 2px solid #3c6d79;
+            font-size: 16px;
+            vertical-align: middle;
+            background-color: inherit !important;
+            /* Added vertical alignment */
+        }
+
+        .logo {
+            width: 200px;
+        }
+
+        thead {
+            background-color: #f9ae65;
+            color: #3c6d79;
+        }
+
+        div {
+            color: #f5f5f5;
+        }
+
+
+        /* Responsive design adjustments */
+        @media (max-width: 768px) {
+
+            .logo {
+                width: 100px;
+            }
+
+            body {
+                padding-top: 10px;
+            }
+
+            .navbar-brand {
+                font-size: 20px;
+            }
+
+            .nav-link {
+                font-size: 16px;
+            }
+
+            .btn-primary {
+                font-size: 16px;
+            }
+
+            table,
+            th,
+            td {
+                font-size: 14px;
+            }
+
+            .navbar-toggler {
+                margin-top: 0;
+            }
+        }
+
+        @media (max-width: 991px) {
+
+            .logo {
+                width: 150px;
+            }
+
+            .navbar {
+                flex-wrap: nowrap;
+                width: 100%;
+                position: relative;
+            }
+
+            .navbar-collapse {
+                position: absolute;
+                top: 100%;
+                right: 0;
+                border-top: 1px solid #3c6d79;
+                transition: all 0.3s ease;
+                opacity: 0;
+                visibility: hidden;
+                background-color: #e0e2ee;
+                width: 50%;
+                text-align: center;
+                padding: 10px;
+            }
+
+            .navbar-nav {
+                position: relative;
+                z-index: 5;
+                width: 100%;
+                justify-content: flex-end;
+            }
+
+            .navbar-collapse.show {
+                opacity: 1;
+                visibility: visible;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Main container -->
+    <div class="container-fluid position-relative p-0">
+        <!-- Navigation bar -->
+        <nav class="navbar navbar-expand-lg navbar-light px-4 px-lg-5 py-3 py-lg-0 container-fluid">
+            <a href="" class="navbar-brand p-0">
+                <h1 class="m-0"><img src="{{ url_for('static', filename='precise.png') }}" width="200px" class="logo" />
+                </h1>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
+                aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation"
+                style="padding-right: -15rem;">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <div class="navbar-nav ms-auto py-0">
+                    <a href="/" class="nav-item nav-link active">Home</a>
+
+                    <!-- Session-based navigation -->
+                    {% if session %}
+                    <a href="/security" class="nav-item nav-link">Security</a>
+                </div>
+                <a href="/logout" class="btn btn-primary rounded-pill py-2 px-4 ms-lg-4">Logout</a>
+                {% else %}
+            </div>
+            <a href="/login" class="btn btn-primary rounded-pill py-2 px-4 ms-lg-4">Login</a>
+            {% endif %}
+    </div>
+    </nav>
+    <!-- Content container -->
+    <div class="container text-center mt-5">
+        <h1 class="display-4 mb-4">Live Traffic Data</h1>
+
+        <!-- Responsive table for traffic data -->
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Node</th>
+                        <th scope="col">North</th>
+                        <th scope="col">East</th>
+                        <th scope="col">South</th>
+                        <th scope="col">West</th>
+                        <th scope="col">Override</th>
+                    </tr>
+                </thead>
+                <tbody id="traffic_table_body">
+                </tbody>
+            </table>
+        </div>
+    </div>
+    </div>
+
+    <script>
+        node = 9
+        signal = 4
+    </script>
+    <!-- Bootstrap JS for interactive components -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"
+        integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"
+        integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13"
+        crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script>
+        for (let i = 0; i < node; i++) {
+            const newTr = document.createElement("tr");
+            newTr.id = `traffic_${i}`;
+            document.body.appendChild(newTr);
+
+            const newTd = document.createElement("td");
+            newTd.id = `node_${i}`;
+            newTr.appendChild(newTd);
+
+            // Create subchild elements for each <tr>
+            for (let j = 0; j < signal; j++) {
+                const newTd = document.createElement("td");
+                newTd.id = `traffic_${i}_signal_${j}`;
+                newTr.appendChild(newTd);
+            }
+            const table_body = document.getElementById("traffic_table_body");
+            table_body.appendChild(newTr);
+
+            const newTdOver = document.createElement("td");
+            newTdOver.id = `override_${i}`;
+            newTdOver.className = "input-width";
+            newTr.appendChild(newTdOver);
+
+        }
+    </script>
+    <script>
+        // Initialize Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyDWGg6tAzeviKN-5P9yOY_4m39mcTymkz0",
+            authDomain: "traffic-management-b495c.firebaseapp.com",
+            projectId: "traffic-management-b495c",
+            storageBucket: "traffic-management-b495c.firebasestorage.app",
+            messagingSenderId: "897765731480",
+            appId: "1:897765731480:web:662ac3593b294548ce74ed",
+            measurementId: "G-SZZ0ZPBQ9H"
+        };
+
+
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
+
+        // Reference to Firestore collection and document
+        const db = firebase.firestore();
+        const unsubscribeFunctions = [];
+        for (let i = 0; i < node; i++) {
+            //accident
+            const docRef = db.collection(`accident`).doc(`node_${i}`);
+            const unsubscribe = docRef.onSnapshot((doc) => {
+                if (doc.exists) {
+                    const data = doc.data();
+                    var element = document.getElementById(`node_${i}`);
+                    if (data['accident']) {
+                        element.style.backgroundColor = "#ffcccc";
+                    }
+                    else {
+                        element.style.backgroundColor = "#e0e2ee";
+                    }
+                }
+            });
+            unsubscribeFunctions.push(unsubscribe);
+
+            const dataList = document.getElementById(`node_${i}`);
+            dataList.innerHTML = "<div>" + (i + 1) + "</div><button id='emergency_" + i + "' class='emergency active'>Activate</button>";
+
+
+            const docref = db.collection(`emergency`).doc(`node_${i}`);
+
+            // Retrieve data from Firestore
+            docref.get().then((doc) => {
+                if (doc.exists) {
+                    const data = doc.data();
+                    var element = document.getElementById(`emergency_${i}`);
+
+                    if (element) {
+                        if (data['emergency'] == 0) {
+                            element.classList.remove('inactive');
+                            element.classList.add('active');
+                            element.innerHTML = "Activate";
+                        }
+                        else {
+                            element.classList.remove('active');
+                            element.classList.add('inactive');
+                            element.innerHTML = "Inactivate";
+                        }
+
+                    }
+                }
+            });
+
+
+
+
+            for (let j = 0; j < signal; j++) {
+                const docRef = db.collection(`traffic_${i}`).doc(`count_${j}`);
+
+                // Set up real-time listener
+                const dataList = document.getElementById(`traffic_${i}_signal_${j}`);
+                const unsubscribe = docRef.onSnapshot((doc) => {
+                    if (doc.exists) {
+                        const data = doc.data();
+                        let dataHTML = "";
+                        let img = "data:image/jpg;base64," + data['base_64'];
+                        delete data['base_64'];
+                        for (const key in data) {
+                            dataHTML += `<div>${key}: ${data[key]}</div>`;
+                        }
+                        dataHTML += `<div><img width="160" height="90" src="${img}" id="traffic_${i}_signal_${j}_image_${j}" alt='NOTHING DETECTED' /></div>`;
+                        dataHTML += `<div id="traffic_${i}_signal_${j}_dialog_${j}" class="dialog">
+                <div class="dialog-content">
+                    <span class="close-button" id="close_${i}_${j}">&times;</span>
+                    <img src="${img}" id="traffic_${i}_signal_${j}_enlarged_image_${j}" class="enlarged_image">
+                </div>
+            </div>`;
+                        dataList.innerHTML = dataHTML;
+
+                        // Set up the event listeners for the newly created elements
+                        const dialog = document.getElementById(`traffic_${i}_signal_${j}_dialog_${j}`);
+                        const thumbnail = document.getElementById(`traffic_${i}_signal_${j}_image_${j}`);
+                        const closeButton = document.getElementById(`close_${i}_${j}`);
+
+                        thumbnail.onclick = function () {
+                            dialog.style.display = "block";
+                        };
+
+                        closeButton.onclick = function () {
+                            dialog.style.display = "none";
+                        };
+                    }
+                });
+                unsubscribeFunctions.push(unsubscribe);
+            }
+
+
+            const form = document.createElement(`form`);
+            form.method = "POST";
+            form.id = `form_${i}`;
+
+            // Create the input and label elements
+            const inputs = [
+                { id: `north_${i}`, placeholder: 'North', name: `north_${i}` },
+                { id: `east_${i}`, placeholder: 'East', name: `east_${i}` },
+                { id: `south_${i}`, placeholder: 'South', name: `south_${i}` },
+                { id: `west_${i}`, placeholder: 'West', name: `west_${i}` }
+            ];
+            inputs.forEach(input => {
+                const inputWrapper = document.createElement('input');
+                inputWrapper.type = 'text';
+                inputWrapper.className = 'form-control';
+                inputWrapper.style.marginBottom = '10px';
+                inputWrapper.style.width = '100%';
+                inputWrapper.style.textAlign = "center";
+                inputWrapper.placeholder = input.placeholder;
+                inputWrapper.id = input.id;
+                inputWrapper.name = input.name; // add the name attribute here
+                inputWrapper.pattern = "\\d*"; // only accept numbers
+                inputWrapper.required = true;
+
+                var docrefFormData = db.collection(`override`).doc(`node_${i}`);
+
+                docrefFormData.get().then((doc) => {
+                    if (doc.exists) {
+                        data = doc.data();
+                        inputWrapper.value = (data[inputWrapper.id] === undefined) ? 0 : data[inputWrapper.id];
+                    }
+                });
+
+
+                form.appendChild(inputWrapper);
+            });
+
+            // Create the submit button
+            const submitBtn = document.createElement('button');
+            submitBtn.innerText = 'Override';
+            submitBtn.type = "submit";
+            submitBtn.id = `override_button_${i}`;
+            submitBtn.className = "emergency inactive";
+            form.appendChild(submitBtn);
+
+            // Append the form to the div with the id "myForm"
+            document.getElementById(`override_${i}`).appendChild(form);
+
+
+
+            //OVERRIDE BUTOON
+            const docrefOver = db.collection(`override`).doc(`node_${i}`);
+
+            // Retrieve data from Firestore
+            docrefOver.get().then((doc) => {
+                if (doc.exists) {
+                    const data = doc.data();
+                    var element = document.getElementById(`override_button_${i}`);
+
+                    if (element) {
+                        if (data['override'] == 1) {
+                            element.classList.remove('inactive');
+                            element.classList.add('active');
+                            element.innerText = "Reversal";
+                        }
+                        else {
+                            element.classList.remove('active');
+                            element.classList.add('inactive');
+                            element.innerText = "Override";
+                        }
+
+                    }
+                }
+            });
+            $(document).ready(function () {
+                $(`#form_${i}`).submit(function (e) {
+                    e.preventDefault();
+                    var formData = $(this).serialize();
+
+                    // Convert query string to a JavaScript object
+                    var formDataObject = {};
+                    formData.split('&').forEach(function (pair) {
+                        pair = pair.split('=');
+                        formDataObject[pair[0]] = parseInt(decodeURIComponent(pair[1] || ''));
+                    });
+
+                    var docrefForm = db.collection(`override`).doc(`node_${i}`);
+
+                    docrefForm.get().then((doc) => {
+                        if (doc.exists) {
+                            formDataObject['override'] = !(doc.data()['override']);
+                            docrefForm.set(formDataObject); // Change this line
+
+                            var element = document.getElementById(`override_button_${i}`);
+                            if (formDataObject['override'] == 1) {
+                                element.classList.remove('inactive');
+                                element.classList.add('active');
+                                element.innerText = "Reversal";
+                            }
+                            else {
+                                element.classList.remove('active');
+                                element.classList.add('inactive');
+                                element.innerText = "Override";
+                            }
+                        }
+                    });
+
+                });
+            });
+
+        }
+
+
+
+        // Unsubscribe from listeners when component unmounts
+        const unsubscribeAll = () => {
+            unsubscribeFunctions.forEach((unsubscribe) => {
+                unsubscribe();
+            });
+        };
+        // Call unsubscribeAll when needed
+        // unsubscribeAll();
+    </script>
+
+    <script>
+        for (let i = 0; i < node; i++) {
+            document.getElementById(`emergency_${i}`).addEventListener("click", function () {
+                var button = this;
+                if (button.classList.contains('inactive')) {
+                    button.classList.remove('inactive');
+                    button.classList.add('active');
+                    button.innerHTML = "Activate";
+                    var docrefacc = db.collection(`emergency`).doc("node_" + button.id.split("_")[1]);
+                    docrefacc.get().then((doc) => {
+                        if (doc.exists) {
+                            // Document exists, update its value
+                            docrefacc.update({ "emergency": 0 });
+                        } else {
+                            // Document doesn't exist, create it with the given value
+                            docrefacc.set({ "emergency": 0 });
+                        }
+                    });
+                }
+                else {
+                    button.classList.remove('active');
+                    button.classList.add('inactive');
+                    button.innerHTML = "Inactivate";
+                    var docrefacc = db.collection(`emergency`).doc("node_" + button.id.split("_")[1]);
+                    docrefacc.get().then((doc) => {
+                        if (doc.exists) {
+                            // Document exists, update its value
+                            docrefacc.update({ "emergency": 1 });
+                        } else {
+                            // Document doesn't exist, create it with the given value
+                            docrefacc.set({ "emergency": 1 });
+                        }
+                    });
+                }
+            });
+        }
+    </script>
+
+    <script>
+        // Navbar toggle script with enhancements for closing on outside click and removing focus
+        document.addEventListener('DOMContentLoaded', () => {
+            const toggler = document.querySelector('.navbar-toggler');
+            const navCollapse = document.querySelector('#navbarCollapse');
+            const body = document.querySelector('body');
+
+            toggler.addEventListener('click', (event) => {
+                navCollapse.classList.toggle('show');
+                event.stopPropagation(); // Prevent event from bubbling to the body
+            });
+
+            body.addEventListener('click', (event) => {
+                if (navCollapse.classList.contains('show')) {
+                    navCollapse.classList.remove('show');
+                }
+            });
+
+            // Remove focus from the toggler after clicking
+            toggler.addEventListener('blur', () => {
+                toggler.blur();
+            });
+        });
+
+
+    </script>
+    <script>
+        window.onbeforeunload = function () {
+            fetch('/logout', { method: 'GET' });
+        };
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Meta tags for responsive design and character encoding -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SE - Security</title>
+
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='apple-touch-icon.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='favicon-16x16.png') }}">
+    <link rel="manifest" href="{{ url_for('static', filename='site.webmanifest') }}">
+
+    <!-- Bootstrap CSS for styling -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+        integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css">
+    <!-- Google Fonts for typography -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&family=Source+Sans+Pro:wght@300;400;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Internal CSS for custom styling -->
+    <style>
+        body {
+            font-family: 'Source Sans Pro', sans-serif;
+            background-size: cover;
+            background-color: #e0e2ee;
+            color: #3c6d79;
+            font-size: 16px;
+            padding-top: 20px;
+        }
+
+        /* Header styles */
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            font-family: 'Open Sans', sans-serif;
+            color: #3c6d79;
+            font-weight: 600;
+        }
+
+        /* Navbar styles */
+        .navbar-expand-lg {
+            background-color: #e0e2ee;
+        }
+
+        .navbar-brand {
+            color: #3c6d79;
+            font-weight: 700;
+            font-size: 24px;
+        }
+
+        .navbar-toggler {
+            color: #e0e2ee;
+            border-color: #f9ae65;
+        }
+
+        .navbar-toggler:focus {
+            border-width: 3px;
+        }
+
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='%233c6d79' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+        }
+
+        /* Link styles */
+        .nav-link {
+            color: #3c6d79;
+            font-weight: 500;
+            font-size: 18px;
+        }
+
+        .nav-link.active {
+            color: #3c6d79 !important;
+            font-weight: bold;
+        }
+
+        .nav-link:hover {
+            color: #f9ae65;
+        }
+
+        /* Button styles */
+        .btn-primary {
+            background-color: #f9ae65;
+            color: #3c6d79;
+            border: none;
+            font-size: 18px;
+        }
+
+        .btn-primary:hover {
+            background-color: #e0e2ee;
+            color: #3c6d79;
+        }
+
+        /* Form styles */
+        .form-group {
+            width: 100%;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .form-label {
+            font-size: 18px;
+            font-weight: 600;
+            color: #3c6d79;
+        }
+
+        .form-control {
+            background-color: #f9ae65;
+            border: 1px solid #3c6d79;
+            color: #3c6d79;
+            font-size: 16px;
+            padding: 10px;
+        }
+
+        .form-control:focus {
+            box-shadow: none;
+        }
+
+        .form-control::placeholder {
+            color: #3c6d79;
+        }
+
+        .btn-submit {
+            background-color: #3c6d79;
+            color: #f9ae65;
+            border: none;
+            font-size: 18px;
+            padding: 10px 20px;
+            margin-top: 10px;
+        }
+
+        .btn-submit:hover {
+            background-color: #f9ae65;
+            color: #3c6d79;
+            cursor: pointer;
+        }
+
+        /* Eye button for password visibility toggle */
+        .password-eye {
+            cursor: pointer;
+            position: absolute;
+            right: 15px;
+            bottom: 13.5px;
+            /* Adjusted to align with the input box */
+            color: #3c6d79;
+        }
+
+        /* Responsive design adjustments */
+        @media (max-width: 768px) {
+            body {
+                padding-top: 10px;
+            }
+
+            .navbar-brand {
+                font-size: 20px;
+            }
+
+            .nav-link {
+                font-size: 16px;
+            }
+
+            .btn-primary {
+                font-size: 16px;
+            }
+
+            table,
+            th,
+            td {
+                font-size: 14px;
+            }
+
+            .navbar-toggler {
+                margin-top: 0;
+            }
+        }
+
+        @media (max-width: 991px) {
+            .navbar {
+                flex-wrap: nowrap;
+                width: 100%;
+                position: relative;
+            }
+
+            .navbar-collapse {
+                position: absolute;
+                top: 100%;
+                right: 0;
+                border-top: 1px solid #3c6d79;
+                transition: all 0.3s ease;
+                opacity: 0;
+                visibility: hidden;
+                background-color: #e0e2ee;
+                width: 50%;
+                text-align: center;
+                padding: 10px;
+            }
+
+            .navbar-nav {
+                position: relative;
+                z-index: 5;
+                width: 100%;
+                justify-content: flex-end;
+            }
+
+            .navbar-collapse.show {
+                opacity: 1;
+                visibility: visible;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Main container -->
+    <div class="container-fluid position-relative p-0">
+        <!-- Navigation bar -->
+        <nav class="navbar navbar-expand-lg navbar-light px-4 px-lg-5 py-3 py-lg-0 container-fluid">
+            <a href="/" class="navbar-brand p-0">
+                <h1 class="m-0">Traffic Management</h1>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
+                aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation"
+                style="padding-right: -15rem;">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <div class="navbar-nav ms-auto py-0">
+                    <a href="/" class="nav-item nav-link">Home</a>
+                    <!-- Session-based navigation -->
+                    {% if session %}
+                    <a href="/security" class="nav-item nav-link active">Security</a>
+                </div>
+                <a href="/logout" class="btn btn-primary rounded-pill py-2 px-4 ms-lg-4">Logout</a>
+                {% else %}
+            </div>
+            <a href="/login" class="btn btn-primary rounded-pill py-2 px-4 ms-lg-4">Login</a>
+            {% endif %}
+    </div>
+    </nav>
+    <!-- Content container -->
+    <div class="container text-center mt-5">
+        <h1 class="display-4 mb-4">Update Password</h1>
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <form method="POST" action="/security">
+                    <div class="form-group">
+                        <label class="form-label">Old Password</label>
+                        <input type="password" name="old_password" class="form-control" required>
+                        <i class="fas fa-eye password-eye" onclick="togglePasswordVisibility('old_password')"></i>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">New Password</label>
+                        <input type="password" name="new_password" class="form-control" required>
+                        <i class="fas fa-eye password-eye" onclick="togglePasswordVisibility('new_password')"></i>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Confirm New Password</label>
+                        <input type="password" name="confirm_password" class="form-control" required>
+                        <i class="fas fa-eye password-eye" onclick="togglePasswordVisibility('confirm_password')"></i>
+                    </div>
+                    <button type="submit" class="btn-submit">Update Password</button>
+                </form>
+                <pre> </pre>
+                <small><b>{{error}}</b></small>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <!-- Bootstrap JS for interactive components -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+        integrity="sha384-oBqDVmMz4fnFO9gybB5IXNxFwWQfE7u8Lj+XJHAxKlXiG/8rsrtpb6PEdzD828Ii"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"
+        integrity="sha384-z2j7XQ3jcj116Iqc5TxHxVJ6X677WaWJD4w5Dg95o9ybuGXQ5cWj2Ch1501e4X6"
+        crossorigin="anonymous"></script>
+    <script>
+        // Navbar toggle script with enhancements for closing on outside click and removing focus
+        document.addEventListener('DOMContentLoaded', () => {
+            const toggler = document.querySelector('.navbar-toggler');
+            const navCollapse = document.querySelector('#navbarCollapse');
+            const body = document.querySelector('body');
+
+            toggler.addEventListener('click', (event) => {
+                navCollapse.classList.toggle('show');
+                event.stopPropagation(); // Prevent event from bubbling to the body
+            });
+
+            body.addEventListener('click', (event) => {
+                if (navCollapse.classList.contains('show')) {
+                    navCollapse.classList.remove('show');
+                }
+            });
+
+            // Remove focus from the toggler after clicking
+            toggler.addEventListener('blur', () => {
+                toggler.blur();
+            });
+        });
+
+        // Password visibility toggle function
+        function togglePasswordVisibility(passwordFieldId) {
+            const passwordInput = document.getElementsByName(passwordFieldId)[0];
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            // Ensure the eye icon changes to reflect the password visibility state
+            const eyeIcon = passwordInput.nextElementSibling;
+            eyeIcon.classList.toggle('fa-eye-slash');
+        }
+
+        // Session count management
+        window.addEventListener('load', function () {
+            let count = localStorage.getItem('count');
+            if (!count) {
+                localStorage.setItem('count', "1");
+            } else {
+                count = parseInt(count);
+                localStorage.setItem('count', (++count).toString());
+            }
+        });
+        window.addEventListener('beforeunload', function () {
+            let count = parseInt(localStorage.getItem('count'));
+            localStorage.setItem('count', (--count).toString());
+            if (count == 0) {
+                localStorage.removeItem('count');
+                fetch('/remove_session', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({})
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>
