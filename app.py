@@ -36,9 +36,9 @@ Session(app)  # Initialize Flask-Session
 # Load Firebase key content from the environment variable
 
 
-load_dotenv(os.path.join("TRAFFIC KEY", ".env"))
 
-firebase_config_json = loads(os.getenv("data"))
+firebase_config_json = loads(os.environ.get("FIREBASE_CREDENTIALS"))
+
 
 # Convert dictionary to Firebase credentials object
 cred = credentials.Certificate(firebase_config_json)
