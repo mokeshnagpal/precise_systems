@@ -10,3 +10,4 @@ datetime
 uuid
 python-dotenv
 opencv-python
+cvzone
