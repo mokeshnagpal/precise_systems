@@ -9,6 +9,4 @@ flask_mail
 datetime
 uuid
 python-dotenv
-opencv-python
-cvzone
-ultralytics
+
