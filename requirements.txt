@@ -11,3 +11,4 @@ uuid
 python-dotenv
 opencv-python
 cvzone
+ultralytics
